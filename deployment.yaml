@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assessment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: assessment
+  template:
+    metadata:
+      labels:
+        app: assessment
+    spec:
+      containers:
+        - name: assessment
+          image: arungovindm/assessment
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: assessment
+spec:
+  selector:
+    app: assessment
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
